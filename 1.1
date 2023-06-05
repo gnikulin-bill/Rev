@@ -1,0 +1,641 @@
+Sub START_PRESS_HERE()
+    
+    Select Case MsgBox(Prompt:="Make sure that Sheet1 contains data. See required columns in the Instructions sheet. Would you like to add Pardeshi numbers to the analysis? Yes - add Pardeshi, No - skip Pardeshi.", _
+                       Buttons:=vbYesNoCancel)
+        Case vbYes
+            Call Step0_Pardeshi
+        Case vbNo
+            Call Step1_Columns
+        Case vbCancel
+            Exit Sub
+    End Select
+End Sub
+
+    
+
+Sub Step0_Pardeshi()
+
+Sheet1.Activate
+
+Dim wsCopy As Worksheet
+Dim wsDest As Worksheet
+Dim lCopyLastRow As Long
+Dim lDestLastRow As Long
+
+  Set wsCopy = Worksheets("Pardeshi")
+  Set wsDest = Worksheets("Sheet1")
+    
+    lCopyLastRow = wsCopy.Cells(wsCopy.Rows.Count, "A").End(xlUp).Row
+
+    lDestLastRow = wsDest.Cells(wsDest.Rows.Count, "A").End(xlUp).Offset(1).Row
+
+    wsCopy.Range("A2:A" & lCopyLastRow).Copy _
+      wsDest.Range("I" & Rows.Count).End(xlUp).Offset(1, 0)
+      
+    wsCopy.Range("B2:B" & lCopyLastRow).Copy _
+    wsDest.Range("A" & Rows.Count).End(xlUp).Offset(1, 0)
+    
+    wsCopy.Range("C2:C" & lCopyLastRow).Copy _
+    wsDest.Range("G" & Rows.Count).End(xlUp).Offset(1, 0)
+    
+    wsCopy.Range("E2:E" & lCopyLastRow).Copy _
+    wsDest.Range("L" & Rows.Count).End(xlUp).Offset(1, 0)
+    
+    Dim Result As Integer
+    Result = MsgBox("Pardeshi data was imported to the bottom of Sheet1. Continue to Step 1 - add columns?", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step1_Columns
+    End If
+End Sub
+Sub Step1_Columns()
+
+Columns("A").Insert
+Columns("A").Insert
+Columns("A").Insert
+Columns("A").Insert
+Columns("L").Cut
+Columns("C").Insert
+Columns("F").Insert
+Columns("F").Insert
+Columns("F").Insert
+Columns("F").Insert
+Columns("F").Insert
+Columns("P").Cut
+Columns("K").Insert
+Columns("S").Insert
+Cells(1, 1).Value = "Department"
+Cells(1, 2).Value = "Intacct"
+Cells(1, 3).Value = "Intacct Location"
+Cells(1, 4).Value = "Intacct GL Account"
+Cells(1, 5).Value = "No-show"
+Cells(1, 6).Value = "LOB"
+Cells(1, 7).Value = "Week"
+Cells(1, 8).Value = "Proposed CPT"
+Cells(1, 9).Value = "Manual Expected"
+Cells(1, 10).Value = "Charges"
+Cells(1, 19).Value = "Level"
+Cells(1, 29).Value = "CPT 1"
+Cells(1, 30).Value = "CPT 2"
+Cells(1, 31).Value = "CPT 3"
+Cells(1, 32).Value = "Mapping 1"
+Cells(1, 33).Value = "Mapping 2"
+Cells(1, 34).Value = "Mapping 3"
+Cells(1, 35).Value = "Manual Expected 1"
+Cells(1, 36).Value = "Manual Expected 2"
+Cells(1, 37).Value = "Manual Expected 3"
+
+Dim Result As Integer
+    Result = MsgBox("Columns were added to Sheet1. Continue to Step 2 - department, CPT & charges?", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step2_Department_CPT_Charges
+    End If
+
+End Sub
+
+Sub Step2_Department_CPT_Charges()
+    Dim LastRow As Long
+    Dim i As Long
+    LastRow = Range("T" & Rows.Count).End(xlUp).Row
+    For i = 2 To LastRow
+         If Range("T" & i).Value = "MicroTherapy" Then
+            Range("A" & i).Value = "Therapy"
+            Range("H" & i).Value = "90832"
+            Range("AC" & i).Value = "90832"
+            Range("J" & i).Value = "150"
+        End If
+         If Range("T" & i).Value = "Long-Term Individual Therapy (90834)" Then
+            Range("A" & i).Value = "Therapy"
+            Range("H" & i).Value = "90834"
+            Range("AC" & i).Value = "90834"
+            Range("J" & i).Value = "200"
+        End If
+         If Range("T" & i).Value = "Group Therapy" Then
+            Range("A" & i).Value = "Therapy"
+            Range("H" & i).Value = "90853"
+            Range("AC" & i).Value = "90853"
+            Range("J" & i).Value = "100"
+        End If
+         If Range("T" & i).Value = "Urgent Care F/U" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99213, 90833"
+            Range("AC" & i).Value = "99213"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "325"
+        End If
+         If Range("T" & i).Value = "Discharge/Treatment Planning Visit" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99213, 90833"
+            Range("AC" & i).Value = "99213"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "325"
+        End If
+         If Range("T" & i).Value = "Continued Care F/U" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99213, 90833"
+            Range("AC" & i).Value = "99213"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "325"
+        End If
+         If Range("T" & i).Value = "Psych Re-eval" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "90792"
+            Range("AC" & i).Value = "90792"
+            Range("J" & i).Value = "450"
+        End If
+         If Range("T" & i).Value = "Psych Eval (New Patient)" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99204, 90833"
+            Range("AC" & i).Value = "99204"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "575"
+        End If
+         If Range("T" & i).Value = "Psych Eval (Existing Patient)" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99204, 90833"
+            Range("AC" & i).Value = "99204"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "575"
+        End If
+         If Range("T" & i).Value = "Follow-up (In-person)" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99213, 90833"
+            Range("AC" & i).Value = "99213"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "325"
+        End If
+         If Range("T" & i).Value = "Psych Eval (ZocDoc)" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99204, 90833"
+            Range("AC" & i).Value = "99204"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "575"
+        End If
+         If Range("T" & i).Value = "Psych Eval (New Patient), In Person" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99204, 90833"
+            Range("AC" & i).Value = "99204"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "575"
+        End If
+         If Range("T" & i).Value = "Psych Eval (Existing Patient), In Person" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "99204, 90833"
+            Range("AC" & i).Value = "99204"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "575"
+        End If
+         If Range("T" & i).Value = "Psychiatric Re-Evaluation, (Existing Patient) In Person" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "90792"
+            Range("AC" & i).Value = "90792"
+            Range("J" & i).Value = "450"
+        End If
+         If Range("T" & i).Value = "Biopsychosocial (New Patient)" Then
+            Range("A" & i).Value = "Clinical Intake"
+            Range("H" & i).Value = "90791"
+            Range("AC" & i).Value = "90791"
+            Range("J" & i).Value = "400"
+        End If
+         If Range("T" & i).Value = "Biopsychosocial (Existing Patient)" Then
+            Range("A" & i).Value = "Clinical Intake"
+            Range("H" & i).Value = "90791"
+            Range("AC" & i).Value = "90791"
+            Range("J" & i).Value = "400"
+        End If
+         If Range("T" & i).Value = "Biopsychosocial (New Patient), In Person" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "90791"
+            Range("AC" & i).Value = "90791"
+            Range("J" & i).Value = "400"
+        End If
+         If Range("T" & i).Value = "Recovery MicroTherapy" Then
+            Range("A" & i).Value = "Recovery"
+            Range("H" & i).Value = "90832"
+            Range("AC" & i).Value = "90832"
+            Range("J" & i).Value = "150"
+        End If
+         If Range("T" & i).Value = "Recovery Care Management" Then
+            Range("A" & i).Value = "Recovery"
+            Range("H" & i).Value = "99211"
+            Range("AC" & i).Value = "99211"
+            Range("J" & i).Value = "50"
+        End If
+         If Range("T" & i).Value = "Follow Up Medication Assisted Treatment (MAT)" Then
+            Range("A" & i).Value = "Recovery"
+            Range("H" & i).Value = "99213, 90833"
+            Range("AC" & i).Value = "99213"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "325"
+        End If
+         If Range("T" & i).Value = "Evaluation Medication Assisted Treatment (MAT)" Then
+            Range("A" & i).Value = "Recovery"
+            Range("H" & i).Value = "99204, 90833"
+            Range("AC" & i).Value = "99204"
+            Range("AD" & i).Value = "90833"
+            Range("J" & i).Value = "575"
+        End If
+         If Range("T" & i).Value = "Recovery Initial Appointment" Then
+            Range("A" & i).Value = "Recovery"
+            Range("H" & i).Value = "No Revenue"
+            Range("AC" & i).Value = ""
+            Range("J" & i).Value = "0"
+        End If
+         If Range("T" & i).Value = "Care Collaboration" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "No Revenue"
+            Range("AC" & i).Value = ""
+            Range("J" & i).Value = "0"
+        End If
+         If Range("T" & i).Value = "Medical Records $25" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "MED25"
+            Range("J" & i).Value = "25"
+            Range("AC" & i).Value = ""
+        End If
+         If Range("T" & i).Value = "" Then
+            Range("A" & i).Value = "Psychiatry"
+            Range("H" & i).Value = "No Revenue"
+            Range("AC" & i).Value = ""
+            Range("J" & i).Value = "0"
+        End If
+    Next i
+
+Dim Result As Integer
+    Result = MsgBox("Department, CPT and charges were added Sheet1. Continue to Step 3 - add Practice, state & week?", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step3_Practice
+    End If
+
+End Sub
+
+Sub Step3_Practice()
+Columns("A").Insert
+Cells(1, 1).Value = "State"
+Dim LastRow As Long
+With Worksheets("Sheet1")
+LastRow = .Cells(.Rows.Count, "D").End(xlUp).Row
+With .Range("A2:A" & LastRow)
+.Formula = "=LEFT(D2,2)"
+.Value = .Value
+End With
+End With
+
+With Worksheets("Sheet1")
+LastRow = .Cells(.Rows.Count, "D").End(xlUp).Row
+With .Range("H2:H" & LastRow)
+.Formula = "=WEEKNUM(R2,1)"
+.Value = .Value
+End With
+End With
+
+    Dim i As Long
+    LastRow = Range("D" & Rows.Count).End(xlUp).Row
+    For i = 2 To LastRow
+         If Range("A" & i).Value = "NH" Then
+            Range("A" & i).Value = "NY"
+        End If
+         If Range("A" & i).Value = "We" Then
+            Range("A" & i).Value = "NY"
+        End If
+         If Range("A" & i).Value = "NY" Then
+            Range("C" & i).Value = "Pardeshi Physician PC"
+        End If
+         If Range("A" & i).Value = "NJ" Then
+            Range("C" & i).Value = "Aldad Medical NJ, PC"
+        End If
+        If Range("C" & i).Value = "" Then
+        Range("C" & i).Value = "Aldad Medical, PC"
+        End If
+
+    Next i
+    
+Dim Result As Integer
+    Result = MsgBox("Practice, State & week number were added to Sheet1. Continue to Step 4 - identify revenue?", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step4_Noshow_Misc
+    End If
+
+End Sub
+
+Sub Step4_Noshow_Misc()
+Dim LastRow As Long
+    Dim i As Long
+    LastRow = Range("S" & Rows.Count).End(xlUp).Row
+    For i = 2 To LastRow
+         If Range("V" & i).Value = "No Show" Then
+            Range("F" & i).Value = ":No Show / Late Cancellation"
+            Range("I" & i).Value = "00001"
+            Range("AD" & i).Value = ""
+            Range("AE" & i).Value = ""
+            Range("K" & i).Value = "25"
+        End If
+         If Range("V" & i).Value = "Cancelled" Then
+            Range("I" & i).Value = "No Revenue"
+            Range("AD" & i).Value = ""
+            Range("AE" & i).Value = ""
+            Range("K" & i).Value = "0"
+        End If
+         If Range("V" & i).Value = "Rescheduled" Then
+            Range("I" & i).Value = "No Revenue"
+            Range("AE" & i).Value = ""
+            Range("AD" & i).Value = ""
+            Range("K" & i).Value = "0"
+        End If
+        If Range("V" & i).Value = "" Then
+            Range("I" & i).Value = "No Revenue"
+            Range("AE" & i).Value = ""
+            Range("AD" & i).Value = ""
+            Range("K" & i).Value = "0"
+        End If
+        
+    Next i
+    
+Dim Result As Integer
+    Result = MsgBox("No-show & revenue identifiers were added to Sheet1. Continue to Step 5 - add GL Account identifiers?", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step5_GLAccount
+    End If
+    
+End Sub
+
+Sub Step5_GLAccount()
+Dim LastRow As Long
+    Dim i As Long
+    
+With Worksheets("Sheet1")
+LastRow = .Cells(.Rows.Count, "L").End(xlUp).Row
+With .Range("E2:E" & LastRow)
+.Formula = "=B2&F2"
+.Value = .Value
+End With
+End With
+
+
+    LastRow = Range("R" & Rows.Count).End(xlUp).Row
+    For i = 2 To LastRow
+         If Range("E" & i).Value = "Psychiatry" Then
+            Range("E" & i).Value = "41300 - Psychiatry"
+        End If
+         If Range("E" & i).Value = "Therapy" Then
+            Range("E" & i).Value = "41100 - Therapy"
+        End If
+         If Range("E" & i).Value = "Clinical Intake" Then
+            Range("E" & i).Value = "41500 - Clinical Intake"
+        End If
+         If Range("E" & i).Value = "Recovery" Then
+            Range("E" & i).Value = "41400 - Recovery"
+        End If
+         If Range("E" & i).Value = "Psychiatry:No Show / Late Cancellation" Then
+        Range("E" & i).Value = "41200 - Psychiatry:No Show / Late Cancellation"
+            End If
+         If Range("E" & i).Value = "Therapy:No Show / Late Cancellation" Then
+        Range("E" & i).Value = "40000 - Therapy:No Show / Late Cancellation"
+            End If
+         If Range("E" & i).Value = "Clinical Intake:No Show / Late Cancellation" Then
+        Range("E" & i).Value = "41550 - Clinical Intake:No Show / Late Cancellation"
+            End If
+         If Range("E" & i).Value = "Recovery:No Show / Late Cancellation" Then
+        Range("E" & i).Value = "41450 - Recovery:No Show / Late Cancellation"
+            End If
+         If Range("E" & i).Value = "" Then
+        Range("E" & i).Value = "42000 - Private Practice, NY - Revenue"
+            End If
+        If Range("E" & i).Value = "42000 - Private Practice, NY - Revenue" Then
+        Range("C" & i).Value = "Pardeshi Physician PC"
+        End If
+        If Range("E" & i).Value = "42000 - Private Practice, NY - Revenue" Then
+        Range("D" & i).Value = "NH | Brooklyn United"
+        End If
+        
+    Next i
+    
+Dim Result As Integer
+    Result = MsgBox("Intacct GL Account identifier was added to Sheet1. Continue to Step 6 - add provider level for mapping?", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step6_ProviderLevel
+    End If
+    
+End Sub
+
+Sub Step6_ProviderLevel()
+Dim LastRow As Long
+    Dim i As Long
+    
+With Worksheets("Sheet1")
+LastRow = .Cells(.Rows.Count, "S").End(xlUp).Row
+With .Range("T2:T" & LastRow)
+.Formula = "=RIGHT(S2,3)"
+.Value = .Value
+End With
+End With
+
+    LastRow = Range("T" & Rows.Count).End(xlUp).Row
+    For i = 2 To LastRow
+         If Range("T" & i).Value = " NP" Then
+            Range("T" & i).Value = "NP"
+        End If
+        If Range("T" & i).Value = "rts" Then
+            Range("T" & i).Value = "NP"
+        End If
+         If Range("T" & i).Value = " PA" Then
+            Range("T" & i).Value = "PA"
+        End If
+        If Range("T" & i).Value = "LSW" Then
+            Range("T" & i).Value = "LMSW"
+        End If
+        If Range("T" & i).Value = "MSW" Then
+            Range("T" & i).Value = "LMSW"
+        End If
+        If Range("T" & i).Value = "CSW" Then
+            Range("T" & i).Value = "LCSW"
+        End If
+        If Range("T" & i).Value = "W-C" Then
+            Range("T" & i).Value = "LCSW"
+        End If
+        If Range("T" & i).Value = " MD" Then
+            Range("T" & i).Value = "MD"
+        End If
+        If Range("T" & i).Value = "shi" Then
+            Range("T" & i).Value = "MD"
+        End If
+        If Range("T" & i).Value = "ssa" Then
+            Range("T" & i).Value = "MD"
+        End If
+
+Next i
+
+Dim Result As Integer
+    Result = MsgBox("Provider level was added to Sheet1. Continue to Step 7 - mapping of manual expected?", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step7_Manual_Expected_Mapping1
+    End If
+
+End Sub
+
+Sub Step7_Manual_Expected_Mapping1()
+Dim LastRow As Long
+    Dim i As Long
+    
+    wsLast_Row = Cells(Rows.Count, 2).End(xlUp).Row
+    With ActiveWorkbook.ActiveSheet.Sort
+        .SortFields.Clear
+        .SortFields.Add Key:=Range("AD2:AD" & wsLast_Row), Order:=xlAscending
+        .SetRange Range("A2:BZ" & wsLast_Row)
+        .Header = xlNo
+        .Apply
+    End With
+    
+With Worksheets("Sheet1") 'Mapping 1'
+LastRow = .Cells(.Rows.Count, "AD").End(xlUp).Row
+With .Range("AG2:AG" & LastRow)
+.Formula = "=(T2&O2&AD2)"
+End With
+End With
+
+    wsLast_Row = Cells(Rows.Count, 2).End(xlUp).Row
+    With ActiveWorkbook.ActiveSheet.Sort
+        .SortFields.Clear
+        .SortFields.Add Key:=Range("AE2:AE" & wsLast_Row), Order:=xlAscending
+        .SetRange Range("A2:BZ" & wsLast_Row)
+        .Header = xlNo
+        .Apply
+    End With
+
+
+With Worksheets("Sheet1") 'Mapping 2'
+LastRow = .Cells(.Rows.Count, "AE").End(xlUp).Row
+With .Range("AH2:AH" & LastRow)
+.Formula = "=(T2&O2&AE2)"
+End With
+End With
+
+With Worksheets("Sheet1") 'Manual Expected 1'
+LastRow = .Cells(.Rows.Count, "AG").End(xlUp).Row
+With .Range("AJ2:AJ" & LastRow)
+.Formula = "=VLOOKUP(AG2,'Manual Expected Mapping'!$D:$E,2,FALSE)"
+End With
+End With
+
+
+Dim Result As Integer
+    Result = MsgBox("Continue to Mapping 2? Much optimized..", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step7_Manual_Expected_Mapping2
+    End If
+
+Columns(36).NumberFormat = "0.00"
+
+End Sub
+
+Sub Step7_Manual_Expected_Mapping2()
+
+Dim LastRow As Long
+    Dim i As Long
+
+With Worksheets("Sheet1")
+LastRow = .Cells(.Rows.Count, "AE").End(xlUp).Row
+With .Range("AK2:AK" & LastRow)
+.Formula = "=VLOOKUP(AH2,'Manual Expected Mapping'!$D:$E,2,FALSE)"
+End With
+End With
+
+Columns(37).NumberFormat = "0.00"
+
+Dim Result As Integer
+    Result = MsgBox("Mapping formulas were added to Sheet1. Continue to breakdown Beacon, Aetna, United etc.?", vbOK)
+    If Result = vbOK Then
+    ActiveWorkbook.Save
+    Call Step8_Breakdown_Payers
+    End If
+
+End Sub
+
+Sub Step7_Manual_Expected_Mapping3() 'Skip for now'
+
+Dim LastRow As Long
+    Dim i As Long
+    
+    wsLast_Row = Cells(Rows.Count, 2).End(xlUp).Row
+    With ActiveWorkbook.ActiveSheet.Sort
+        .SortFields.Clear
+        .SortFields.Add Key:=Range("AF2:AF" & wsLast_Row), Order:=xlAscending
+        .SetRange Range("A2:BZ" & wsLast_Row)
+        .Header = xlNo
+        .Apply
+    End With
+    
+With Worksheets("Sheet1") 'Mapping 3 Move Up if needed'
+LastRow = .Cells(.Rows.Count, "AF").End(xlUp).Row
+With .Range("AI2:AI" & LastRow)
+.Formula = "=(T2&O2&AF2)"
+End With
+End With
+    
+With Worksheets("Sheet1")
+LastRow = .Cells(.Rows.Count, "AF").End(xlUp).Row
+With .Range("AL2:AL" & LastRow)
+.Formula = "=VLOOKUP(AI2,'Manual Expected Mapping'!$D:$E,2,FALSE)"
+End With
+End With
+
+Columns(38).NumberFormat = "0.00"
+
+End Sub 'Skip for now'
+Sub Step8_Breakdown_Payers()
+Dim LastRow As Long
+    Dim i As Long
+    
+    LastRow = Range("L" & Rows.Count).End(xlUp).Row
+    For i = 2 To LastRow
+
+        If Range("O" & i).Value = "BHOVO" Then
+            Range("O" & i).Value = "43324"
+        End If
+        
+    Next i
+    
+End Sub
+
+Sub Test2()
+        wsLast_Row = Cells(Rows.Count, 2).End(xlUp).Row
+    With ActiveWorkbook.ActiveSheet.Sort
+        .SortFields.Clear
+        .SortFields.Add Key:=Range("G2:G" & wsLast_Row), Order:=xlAscending
+        .SetRange Range("A2:BZ" & wsLast_Row)
+        .Header = xlNo
+        .Apply
+    End With
+    
+    With Worksheets("Sheet1")
+LastRow = .Cells(.Rows.Count, "G").End(xlUp).Row
+With .Range("G2:G" & LastRow)
+.Formula = "=RIGHT(P2,2)"
+.Value = .Value
+End With
+End With
+End Sub
+
+
+
+Sub Test1()
+ Dim LastRow As Long
+    Dim i As Long
+    
+    LastRow = Range("E" & Rows.Count).End(xlUp).Row
+    For i = 2 To LastRow
+        If Range("E" & i).Value = "42000 - Private Practice, NY - Revenue" Then
+            Range("J" & i).FormulaR1C1 = "=RC[+13]"
+        End If
+    Next i
+
+
+End Sub
+
